@@ -1,6 +1,7 @@
 (ns wordlegen.twitter
   (:require [http.async.client :as c])
-  (:use [clojure.data.json :only (json-str write-json read-json)]))
+  (:use [clojure.data.json :only (json-str write-json read-json)])
+  (:use [clojure.java.io]))
 
 (def credentials-file-name "credentials.txt")
 
@@ -29,3 +30,8 @@
           resp (c/stream-seq client :get "https://stream.twitter.com/1/statuses/sample.json"
                            :auth {:user u :password p})]
       (take-n resp n))))
+
+(defn write-to-file [filename n]
+  (with-open [wrtr (writer filename :append true)]
+    (doseq [line (map read-json (take-n-twitter-firehose n))]
+      (.write wrtr line )))) ;;somehow this does'nt work??
