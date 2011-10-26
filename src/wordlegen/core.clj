@@ -1,7 +1,15 @@
 (ns wordlegen.core
   (:use [wordlegen wordlegen twitter]))
 
-(defn -main [& [args]]
+(defn- call [^String nm]
+  (when-let [fun (ns-resolve *ns* (symbol nm))]
+    (apply fun)))
+
+(defn example1 []
+  (println "example1!"))
+
+(defn -main [& args]
   (let [tweets (take-n-twitter-firehose 10)]
-    (println tweets)
-    (create-wordle tweets)))
+    (call (first args))))
+;    (println tweets)
+;    (create-wordle tweets)))
