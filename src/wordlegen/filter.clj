@@ -13,3 +13,9 @@
   (map last tweets)
   ;; nil ; replace by your implementation!
   )
+
+(defn filter5
+  "This function returns a map with the user as key, #followers as value"
+  [raw-tweets]
+  nil ; replace by your implementation!
+  )

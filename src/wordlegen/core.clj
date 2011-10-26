@@ -20,17 +20,30 @@
   (let [tweets (take-n-twitter-firehose *tweets*)]
     (remove nil? (map get-text tweets))))
 
-(defn filter-tweet1 [tweet]
+(defn- filter-tweet1 [tweet]
   (map #(str (filter1 %)) (split-into-words tweet)))
 
-(defn example1 []
+(defn example1
+  "Puts word lenght in a Worldle"
+  []
   (let [word-list (map filter-tweet1 (get-tweets))]
     (frequencies (flatten word-list))))
+
+(defn example2
+  "Puts all last words of a series of tweets in a Wordle"
+  []
+  (frequencies (filter2 (map split-into-words (get-tweets)))))
+
+(defn example5
+  "Put influence strength (nr of followers) in a Wordle"
+  []
+  (filter5 (map read-json (take-n-twitter-firehose *tweets*))))
 
 (defn -main [& args]
   (let [wordle (MyWordle.)
         function (first args)]
     (.setAllowRotate wordle true)
+    (.setOutputWidth wordle (Integer. 512))
     (add-words wordle (call function))
     (.doLayout wordle)
     (.saveAsPNG wordle (File. "wordle.png"))))
