@@ -3,5 +3,5 @@ lib/
 *~
 wordle.png
 credentials.txt
-*.jar
+lib/*.jar
 

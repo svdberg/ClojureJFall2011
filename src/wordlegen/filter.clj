@@ -3,6 +3,7 @@
 (defn filter1
   ""
   [word]
-  0	; replace by your implementation!
+  (count word)
+  ;; 0	; replace by your implementation!
  )
   
