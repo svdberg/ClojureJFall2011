@@ -1,6 +1,7 @@
-(defproject twittertest "1.0.0-SNAPSHOT"
-  :description "twitter test application"
+(defproject wordlegen "1.0.0-SNAPSHOT"
+  :description "Wordle cloud generator for JFall 2011"
+  :main wordlegen.core
+  :run-aliases {:wordle [wordlegen.core -main "arg1"]}
   :dependencies [[org.clojure/clojure "1.3.0"]
-                 [org.clojure/clojure-contrib "1.2.0"]
-                 [clojure-twitter/clojure-twitter "1.2.5"]
-                 [twitter-api "0.6.0"]])
+                 [org.clojure/data.json "0.1.1"]
+                 [http.async.client "0.3.1"]])
