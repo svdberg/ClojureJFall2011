@@ -10,7 +10,7 @@
 (defn filter2
   "This function returns a list with the last words of a list of tweets"
   [tweets]
-  (map last tweets)
+  ;;(map last tweets)
   ;; nil ; replace by your implementation!
   )
 
