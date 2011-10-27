@@ -2,6 +2,9 @@
 
 set LEIN_VERSION=1.6.1.1
 
+rem this should be set relative..
+set LEIN_HOME=bin\.lein
+
 setLocal EnableExtensions EnableDelayedExpansion
 
 if "%LEIN_VERSION:~-9%" == "-SNAPSHOT" (
