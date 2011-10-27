@@ -31,7 +31,13 @@
                            :auth {:user u :password p})]
       (take-n resp n))))
 
-(defn write-to-file [filename n]
+(defn write-one-line [filename string]
   (with-open [wrtr (writer filename :append true)]
-    (doseq [line (map read-json (take-n-twitter-firehose n))]
-      (.write wrtr line )))) ;;somehow this does'nt work??
+    (.write wrtr (str string "\n"))))
+
+(defn write-to-file [filename n]
+  (doseq [line (map #(str (read-json %)) (take-n-twitter-firehose n))]
+    (write-one-line filename line))) 
+
+(defn read-file-as-seq [filename]
+  (line-seq (reader filename)))
