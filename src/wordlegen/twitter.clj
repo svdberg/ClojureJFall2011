@@ -40,7 +40,7 @@
 
 (defn- write-one-line [filename string]
   (with-open [wrtr (writer filename :append true)]
-    (.write wrtr (str string "\n"))))
+    (.write wrtr (str string))))
 
 (defn- write-to-file [filename n]
   (doseq [line (take-n-tweets-from-firehose n)]
