@@ -4,7 +4,7 @@
   "This function returns the length of a word"
   [word]
   (count word)
-  ; 0	; replace by your implementation!
+  ;; 0	; replace by your implementation!
  )
 
 (defn filter2

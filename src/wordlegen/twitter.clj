@@ -3,7 +3,14 @@
   (:use [clojure.data.json :only (json-str write-json read-json)])
   (:use [clojure.java.io]))
 
-(def credentials-file-name "credentials.txt")
+(def *credentials-file-name* "credentials.txt")
+(def *filename* "resources/firehosedump.txt")
+
+(defn- read-file-as-seq [filename]
+  (line-seq (reader filename)))
+
+(defn- take-n-tweets-from-file [n]
+  (take n (read-file-as-seq *filename*)))
 
 (defn- load-keyfile
   [filename]
@@ -15,7 +22,7 @@
 (defn- twitter-credentials
   "loads twitter username + password from credentials.txt"
   []
-  (load-keyfile credentials-file-name))
+  (load-keyfile *credentials-file-name*))
 
 (defn- take-n [seq n]
   (cond
@@ -23,7 +30,7 @@
    (= n 1) (list (first (c/string seq)))
    :else (cons (first (c/string seq)) (take-n seq (dec n)))))
 
-(defn take-n-twitter-firehose [n]
+(defn- take-n-twitter-firehose [n]
   (with-open [client (c/create-client)]
     (let [u (:user (twitter-credentials))
           p (:password (twitter-credentials))
@@ -31,13 +38,23 @@
                            :auth {:user u :password p})]
       (take-n resp n))))
 
-(defn write-one-line [filename string]
+(defn- write-one-line [filename string]
   (with-open [wrtr (writer filename :append true)]
     (.write wrtr (str string "\n"))))
 
-(defn write-to-file [filename n]
+(defn- write-to-file [filename n]
   (doseq [line (map #(str (read-json %)) (take-n-twitter-firehose n))]
     (write-one-line filename line))) 
 
-(defn read-file-as-seq [filename]
-  (line-seq (reader filename)))
+;;define the protocol for retrieving a seq of tweets in json-format
+(defprotocol TweetSeq
+  "Protocol for retrieving n tweets from the firehose, as a seq of json"
+  (take-n-tweets [x n]))
+
+(deftype OnlineFirehose [] TweetSeq
+         (take-n-tweets [x n] (take-n-twitter-firehose n)))
+
+(deftype OfflineFirehose [] TweetSeq
+         (take-n-tweets [x n] (take-n-tweets-from-file n)))
+
+(def twitter-impl (OnlineFirehose.))

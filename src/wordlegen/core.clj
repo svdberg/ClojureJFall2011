@@ -17,7 +17,7 @@
   (:text (read-json tweet)))
 
 (defn- get-tweets []
-  (let [tweets (take-n-twitter-firehose *tweets*)]
+  (let [tweets (take-n-tweets twitter-impl *tweets*)]
     (remove nil? (map get-text tweets))))
 
 (defn- filter-tweet1 [tweet]
@@ -37,7 +37,7 @@
 (defn example5
   "Put influence strength (nr of followers) in a Wordle"
   []
-  (filter5 (map read-json (take-n-twitter-firehose *tweets*))))
+  (filter5 (map read-json (take-n-tweets twitter-impl *tweets*))))
 
 (defn -main [& args]
   (let [wordle (MyWordle.)
