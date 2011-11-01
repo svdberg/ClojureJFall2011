@@ -4,14 +4,11 @@
   (:use [wordlegen wordle twitter filter])
   (:use [clojure.data.json :only (json-str write-json read-json)]))
 
-(def *tweets* 10)
+(def ^:dynamic *tweets* 20)
 
 (defn- call [^String nm & args]
   (when-let [fun (ns-resolve *ns* (symbol (str "wordlegen.core/" nm)))]
     (apply fun args)))
-
-(defn split-into-words [tweet]
-  (re-seq #"\w+" tweet))
 
 (defn- get-text [tweet]
   (:text (read-json tweet)))
@@ -34,10 +31,17 @@
   []
   (frequencies (filter2 (map split-into-words (get-tweets)))))
 
-(defn example5
+(defn example3
+  ""
+  []
+  (reduce (partial merge-with +) {} (map filter3 (get-tweets))))
+  
+;;  (apply (partial merge-with +) (map filter3 (get-tweets))))
+
+(defn example4
   "Put influence strength (nr of followers) in a Wordle"
   []
-  (filter5 (map read-json (take-n-tweets twitter-impl *tweets*))))
+  (filter4 (map read-json (take-n-tweets twitter-impl *tweets*))))
 
 (defn -main [& args]
   (let [wordle (MyWordle.)
