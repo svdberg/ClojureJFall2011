@@ -3,3 +3,5 @@ classes/
 wordle.png
 credentials.txt
 
+
+src/wordlegen/#filter.clj#

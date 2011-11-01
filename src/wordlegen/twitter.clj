@@ -57,4 +57,4 @@
 (deftype OfflineFirehose [] TweetSeq
          (take-n-tweets [x n] (take-n-tweets-from-file n)))
 
-(def twitter-impl (OnlineFirehose.))
+(def twitter-impl (OfflineFirehose.))
