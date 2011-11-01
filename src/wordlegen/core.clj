@@ -36,7 +36,6 @@
   []
   (reduce (partial merge-with +) {} (map filter3 (get-tweets))))
   
-;;  (apply (partial merge-with +) (map filter3 (get-tweets))))
 
 (defn example4
   "Put influence strength (nr of followers) in a Wordle"
